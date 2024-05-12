@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:51:14 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:31:04 by mdelwaul         ###   ########.fr       */
+/*   Updated: 2024/05/12 07:09:45 by maagosti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,5 @@ void	ft_lstprint_fd(t_list *lst, int fd)
 		ft_putstr_fd("|\n", fd);
 		lst = lst->next;
 		i++;
-	}
-}
-
-void	ft_lstprint(t_list *lst)
-{
-	while (lst)
-	{
-		printf("|%s|\n", (char *)lst->content);
-		lst = lst->next;
 	}
 }

@@ -6,53 +6,100 @@
 /*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 00:43:31 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/07 01:00:42 by maagosti         ###   ########.fr       */
+/*   Updated: 2024/05/11 17:47:23 by maagosti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	read_file(int fd, char **dest)
+static size_t	gnl_strlen(const char *str)
 {
-	char	buffer[BUFFER_SIZE + 1];
-	int		read_return;
-	char	*tmp;
+	size_t	len;
 
-	read_return = BUFFER_SIZE;
-	while (read_return == BUFFER_SIZE && ft_strchr(*dest, '\n') == NULL)
+	len = 0;
+	while (str[len] && str[len] != '\n')
+		len++;
+	return (len);
+}
+
+static char	*gnl_strjoin(const char *s1, const char *s2)
+{
+	size_t	size;
+	char	*result;
+	char	*s;
+
+	size = 0;
+	if (s1)
+		size += gnl_strlen(s1);
+	if (s2)
+		size += gnl_strlen(s2);
+	result = (char *)malloc(sizeof(char) * (size + 1));
+	s = result;
+	if (s1)
+		while (*s1)
+			*s++ = *s1++;
+	if (s2)
+		while (*s2 && *s2 != '\n')
+			*s++ = *s2++;
+	*s = 0;
+	return (result);
+}
+
+static int	gnl_strchr(const char *str, char c)
+{
+	int		pos;
+
+	pos = 0;
+	while (str[pos] && str[pos] != c)
+		pos++;
+	if (str[pos] == c)
+		return (pos + 1);
+	return (-1);
+}
+
+static char	*ft_read(int fd, char *buffer, char *line)
+{
+	char	*tmp;
+	int		read_ret;
+	int		pos;
+
+	read_ret = 1;
+	while (read_ret > 0)
 	{
-		read_return = read(fd, buffer, BUFFER_SIZE);
-		buffer[read_return] = 0;
-		tmp = *dest;
-		*dest = ft_strjoin(*dest, buffer);
-		free(tmp);
+		read_ret = read(fd, buffer, BUFFER_SIZE);
+		if (!line[0] && read_ret <= 0)
+			return (free(line), NULL);
+		buffer[read_ret] = 0;
+		tmp = gnl_strjoin(line, buffer);
+		free(line);
+		line = tmp;
+		pos = gnl_strchr(buffer, '\n');
+		if (pos != -1)
+		{
+			ft_memmove(buffer, buffer + pos, BUFFER_SIZE - pos);
+			buffer[BUFFER_SIZE - pos] = 0;
+			break ;
+		}
 	}
-	return (read_return);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[200];
-	char		*next_nl;
-	char		*dest;
-	char		*tmp;
-	int			read_return;
+	static char		buffer[100][BUFFER_SIZE + 1];
+	int				pos;
+	char			*line;
 
-	dest = NULL;
-	read_return = read_file(fd, buffer + fd);
-	if (buffer[fd][0] == 0)
+	if (BUFFER_SIZE <= 0 || fd >= 100 || fd < 0)
 		return (NULL);
-	next_nl = ft_strchr(buffer[fd], '\n');
-	if (next_nl == NULL || read_return < BUFFER_SIZE)
-	{
-		dest = ft_strndup(buffer[fd], ft_strlen(buffer[fd]));
-		free(buffer[fd]);
-		buffer[fd] = NULL;
-		return (dest);
-	}
-	dest = ft_strndup(buffer[fd], next_nl - buffer[fd] + 1);
-	tmp = buffer[fd];
-	buffer[fd] = ft_strndup(next_nl + 1, ft_strlen(next_nl + 1));
-	free(tmp);
-	return (dest);
+	line = ft_strdup(buffer[fd]);
+	if (!line)
+		return (NULL);
+	if (buffer[fd][0] == '\0')
+		return (ft_read(fd, buffer[fd], line));
+	pos = gnl_strchr(buffer[fd], '\n');
+	if (pos == -1)
+		return (ft_read(fd, buffer[fd], line));
+	ft_memmove(buffer[fd], buffer[fd] + pos, BUFFER_SIZE - pos);
+	return (line);
 }

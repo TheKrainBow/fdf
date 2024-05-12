@@ -6,7 +6,7 @@
 /*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 06:59:13 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/07 07:56:47 by maagosti         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:12:57 by maagosti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ t_range	range(double a, double b)
 
 double	ft_map(t_range input, t_range output, double value)
 {
-	double slope = 1.0 * (output.end - output.start) / (input.end - input.start);
-	double tmp = output.start + slope * (value - input.start);
-	//printf("[%.2f;%.2f] => [%.2f;%.2f];;%.2f => %.2f\n", input.start, input.end, output.start, output.end, value, tmp);
+	double	slope;
+	double	tmp;
+
+	slope = 1.0 * (output.end - output.start) / (input.end - input.start);
+	tmp = output.start + slope * (value - input.start);
 	return (tmp);
 }

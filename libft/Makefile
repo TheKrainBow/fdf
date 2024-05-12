@@ -79,11 +79,11 @@ SRCS		=	$(SRCS_CHAR) $(SRCS_FILE) $(SRCS_LST) $(SRCS_MATH) $(SRCS_MEM) $(SRCS_PR
 
 OBJS		=	$(SRCS:.c=.o)
 
-CC			=	@clang
+CC			=	@cc
 RM			=	@rm -f
 NAME		=	libft.a
 
-FLAGS		=	-Wall -Werror -Wextra -Iincludes
+FLAGS		=	-Wall -Werror -Wextra -Iincludes -O3
 
 .c.o:
 				$(CC) $(FLAGS) -c $< -o $(<:.c=.o)

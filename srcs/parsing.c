@@ -6,11 +6,22 @@
 /*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 08:47:56 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/07 08:56:58 by maagosti         ###   ########.fr       */
+/*   Updated: 2024/05/12 07:32:45 by maagosti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	data_default_values(t_data *data)
+{
+	data->max_x = INT_MIN;
+	data->max_y = INT_MIN;
+	data->max_z = INT_MIN;
+	data->iso_x.start = INT_MAX;
+	data->iso_x.end = INT_MIN;
+	data->iso_y.start = INT_MAX;
+	data->iso_y.end = INT_MIN;
+}
 
 int	parse_line(t_data *data, int **map, char *line, int idx)
 {
@@ -46,6 +57,7 @@ void	parse_file(t_data *data, char *file)
 	char	**lines;
 	int		i;
 
+	data_default_values(data);
 	lines = ft_split(file, '\n');
 	data->max_y = ft_tablen(lines);
 	data->map = ft_calloc(sizeof(int *), data->max_y + 1);

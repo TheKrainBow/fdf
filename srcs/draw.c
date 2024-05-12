@@ -6,7 +6,7 @@
 /*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 08:50:34 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/07 09:16:46 by maagosti         ###   ########.fr       */
+/*   Updated: 2024/05/12 07:30:04 by maagosti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	draw_point(t_data *data, int x, int y, t_pixel color)
 {
 	x += ft_abs(data->iso_x.start) + PADDING;
 	y += ft_abs(data->iso_y.start) + PADDING;
-	if (y <= 0 || x <= 0 || y >= data->win_y
-		|| x >= data->win_x || color.a == 0)
+	if (y < 0 || x < 0 || y >= data->win_y
+		|| x >= data->win_x)
 		return ;
 	data->draw[data->win_x * y + x] = color;
 }
@@ -77,14 +77,14 @@ void	draw_iso_point(t_data *data, int x, int y)
 
 	origin.x = iso_x(x, y);
 	origin.y = iso_y(x, y, data->map[y][x]);
-	scale_point(&origin, SCALE);
+	scale_point(&origin, data->scale);
 	if (x < data->max_x - 1)
 	{
 		other.x = iso_x(x + 1, y);
 		other.y = iso_y(x + 1, y, data->map[y][x + 1]);
 		h.x = data->map[y][x];
 		h.y = data->map[y][x + 1];
-		scale_point(&other, SCALE);
+		scale_point(&other, data->scale);
 		draw_line(data, origin, other, h);
 	}
 	if (y < data->max_y - 1)
@@ -93,7 +93,7 @@ void	draw_iso_point(t_data *data, int x, int y)
 		other.y = iso_y(x, y + 1, data->map[y + 1][x]);
 		h.x = data->map[y][x];
 		h.y = data->map[y + 1][x];
-		scale_point(&other, SCALE);
+		scale_point(&other, data->scale);
 		draw_line(data, origin, other, h);
 	}
 }

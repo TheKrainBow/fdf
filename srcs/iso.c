@@ -6,7 +6,7 @@
 /*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 08:49:06 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/07 09:23:25 by maagosti         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:13:48 by maagosti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,3 @@ void	scale_point(t_point *p, double scale)
 	p->x *= scale;
 	p->y *= scale;
 }
-	

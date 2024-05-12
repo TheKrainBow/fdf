@@ -3,6 +3,7 @@ SRCS_ALGO	=	srcs/draw.c								\
 				srcs/iso.c								\
 				srcs/main.c								\
 				srcs/parsing.c							\
+				srcs/visual.c							\
 
 INCLUDES	=	-Iincludes								\
 				-Ilibft/includes						\
